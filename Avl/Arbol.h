@@ -7,6 +7,7 @@ class Arbol
 public:
 	Arbol() {
 		root = 0;
+
 	};
 
 	//Funciones Básicas
@@ -19,13 +20,12 @@ public:
 	Nodo<T> * rdd(Nodo<T>*n1);
 	Nodo<T> * rdi(Nodo<T>*n1);
 
-
-
 	//Destructor;
 	
 
 private:
 	Nodo<T> * root;
+
 };
 
 template<class T>
