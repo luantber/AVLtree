@@ -6,6 +6,7 @@
 #include "Nodo.h"
 
 #include <iostream>
+using namespace std;
 int main()
 {
 	Arbol<int> a;
@@ -13,6 +14,15 @@ int main()
 	std::cout << a.insertar(5)<<std::endl;
 	std::cout << a.insertar(4) << std::endl;
 	std::cout << a.insertar(3) << std::endl;
+	std::cout << a.insertar(2) << std::endl;
+
+	cout << "here "<<a.find(5, q)<<endl;
+	cout << a.profundidade(*q) << endl;
+	cout << a.factorEquilibrio(*q) << endl;
+
+
+	//cout << a.
+
     return 0;
 }
 
