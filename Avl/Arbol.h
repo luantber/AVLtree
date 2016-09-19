@@ -15,12 +15,15 @@ public:
 	bool insertar(T d);
 
 	//Complementarios (Poner en Private despues)
-	int profundidade(Nodo<T> * hijo);
 	int factorEquilibrio(Nodo<T> * elegido);
+
+
 	
 private:
 	Nodo<T> * root;
 	
+	//Complementarios
+	int profundidade(Nodo<T> * hijo);
 
 	//Rotaciones AVL
 	Nodo<T> * rsd(Nodo<T>*n1);

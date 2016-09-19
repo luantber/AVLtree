@@ -17,7 +17,6 @@ int main()
 	std::cout << a.insertar(2) << std::endl;
 
 	cout << "here "<<a.find(5, q)<<endl;
-	cout << a.profundidade(*q) << endl;
 	cout << a.factorEquilibrio(*q) << endl;
 
 
