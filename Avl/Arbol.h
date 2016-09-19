@@ -29,6 +29,7 @@ private:
 	Nodo<T> * rdi(Nodo<T>*n1);
 
 	//Balancear
+	Nodo<T> * balancear(Nodo<T> * temp = root);
 
 };
 
@@ -101,4 +102,32 @@ Nodo<T>* Arbol<T>::rdi(Nodo<T>* n1)
 	Nodo<T> * n2 = n1->son[1] = rsd(n1->son[1]);
 	rsi(n1);
 	return n2;
+}
+
+template<class T>
+Nodo<T>* Arbol<T>::balancear(Nodo<T>* temp = root)
+{
+	if (!temp) return 0;
+	if (!temp->son[0] && !temp->dato[1]) return temp;
+	Nodo <T> * n2 = 0;
+	int factorg = factorEquilibrio(temp);
+	if (factorg == 2) {
+		int fder = factorEquilibrio(temp->son[1]);
+		if (fder == 1) n2 = rsi(temp);
+		else if (f der == -1)n2 = rdi(temp);
+	}
+	else if (factorg == -2)
+	{
+		int fizq = factorEquilibrio(temp->son[0]);
+		if (fizq == -1) n2 = rsd(temp);
+		else if (fizq == 1) n2 = rdd(temp);
+	}
+	else
+	{
+		temp->son[0] = balancear(temp->son[0]);
+		temp->son[1] = balancear(temp->son[1]);
+		return temp;
+	}
+	return n2;
+
 }
