@@ -12,6 +12,7 @@ public:
 	Nodo(T d) { dato = d; };
 	Nodo<T> * son[2] = { 0, 0 };
 
+	int altura;
 	//Destructor
 	
 

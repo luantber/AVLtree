@@ -11,17 +11,19 @@ public:
 	};
 
 	//Funciones Básicas
-	bool find(T d,Nodo<T> ** & p);
+	bool find(T d, Nodo<T> ** & p);
 	bool insertar(T d);
+	void borrar(T d);
 
 	//Complementarios (Poner en Private despues)
 	int factorEquilibrio(Nodo<T> * elegido);
 
+	//Balancear
+	Nodo<T> * balancear(Nodo<T> * temp, bool & stop);
 
-	
-private:
 	Nodo<T> * root;
-	
+private:
+
 	//Complementarios
 	int profundidade(Nodo<T> * hijo);
 
@@ -31,8 +33,9 @@ private:
 	Nodo<T> * rdd(Nodo<T>*n1);
 	Nodo<T> * rdi(Nodo<T>*n1);
 
-	//Balancear
-	Nodo<T> * balancear(Nodo<T> * temp = root);
+	//Cristian
+	void RDD(Nodo<T> * &p);
+
 
 };
 
@@ -53,9 +56,52 @@ bool Arbol<T>::insertar(T d)
 {
 	Nodo<T> ** q;
 	if (find(d, q)) return false;
-	* q = new Nodo<T>(d);
+	*q = new Nodo<T>(d);
+	bool stop = false;
+	root = balancear(root, stop);
 	return true;
 }
+
+template<class T>
+void Arbol<T>::borrar(T d)
+{
+	Nodo<T>**p;
+	if (!find(d, p)) return;
+	Nodo<T> * temp = *p;
+
+	if (!(*p)->son[0] && !(*p)->son[1]) {
+		*p = 0;
+		delete temp;
+	}
+
+	else if ((*p)->son[0] && (*p)->son[1]) {
+		p = &(temp->son[0]);
+		while ((*p)->son[1])
+		{
+			p = &((*p)->son[1]);
+		}
+		temp->dato = (*p)->dato;
+		temp = *p;
+
+		if ((*p)->son[0]) *p = (*p)->son[0];
+		else *p = 0;
+		delete temp;
+		
+	}
+	else if ((*p)->son[0]) {
+		*p = (*p)->son[0];
+		delete temp;
+	}
+	else if ((*p)->son[1]) {
+		*p = (*p)->son[1];
+		delete temp;
+	
+	}
+
+	bool stop = false;
+   root = balancear(root, stop);
+}
+
 #include <algorithm>
 template<class T>
 int Arbol<T>::profundidade(Nodo<T>* hijo)
@@ -108,16 +154,32 @@ Nodo<T>* Arbol<T>::rdi(Nodo<T>* n1)
 }
 
 template<class T>
-Nodo<T>* Arbol<T>::balancear(Nodo<T>* temp = root)
+void Arbol<T>::RDD(Nodo<T>*& p)
 {
+	Nodo<T> *n2 = n1->son[1];
+	n1->son[1] = n2->son[0];
+	n2->son[0] = n1;
+	return n2;
+}
+
+template<class T>
+Nodo<T>* Arbol<T>::balancear(Nodo<T>* temp, bool & stop)
+{
+
 	if (!temp) return 0;
-	if (!temp->son[0] && !temp->dato[1]) return temp;
+	if (!temp->son[0] && !temp->son[1]) return temp;
+
+	temp->son[0] = balancear(temp->son[0],stop);
+	temp->son[1] = balancear(temp->son[1],stop);
+
+	if (stop) return temp;
+	
 	Nodo <T> * n2 = 0;
 	int factorg = factorEquilibrio(temp);
 	if (factorg == 2) {
 		int fder = factorEquilibrio(temp->son[1]);
 		if (fder == 1) n2 = rsi(temp);
-		else if (f der == -1)n2 = rdi(temp);
+		else if (fder == -1)n2 = rdi(temp);
 	}
 	else if (factorg == -2)
 	{
@@ -127,10 +189,10 @@ Nodo<T>* Arbol<T>::balancear(Nodo<T>* temp = root)
 	}
 	else
 	{
-		temp->son[0] = balancear(temp->son[0]);
-		temp->son[1] = balancear(temp->son[1]);
 		return temp;
 	}
+
+	stop = true;
 	return n2;
 
 }

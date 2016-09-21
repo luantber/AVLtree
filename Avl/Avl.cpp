@@ -10,17 +10,23 @@ using namespace std;
 int main()
 {
 	Arbol<int> a;
-	Nodo<int> ** q ;
-	std::cout << a.insertar(5)<<std::endl;
-	std::cout << a.insertar(4) << std::endl;
-	std::cout << a.insertar(3) << std::endl;
-	std::cout << a.insertar(2) << std::endl;
+	
+	a.insertar(5);
+	a.insertar(10);
+	a.insertar(15);
+	a.insertar(4);
+	a.insertar(1);
+	a.insertar(6);
+	a.insertar(7);
+	a.insertar(8);
 
-	cout << "here "<<a.find(5, q)<<endl;
-	cout << a.factorEquilibrio(*q) << endl;
 
 
-	//cout << a.
+	cout << a.root << endl;
+
+	a.borrar(8);
+	
+	cout << a.root << endl;
 
     return 0;
 }
